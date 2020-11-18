@@ -1,6 +1,7 @@
 import React, {useReducer} from 'react';
 import { todoReducer } from './todoReducer';
 import './styles.css';
+import { useForm } from '../../hooks/useForm';
 
 
 const initialState = [
@@ -14,9 +15,35 @@ const initialState = [
 
 const TodoApp = () => {
 
-  const [ todos ] = useReducer(todoReducer, initialState);
+  const [ todos, dispatch ] = useReducer(todoReducer, initialState);
 
-  console.log(todos);
+  const [{description}, handleInputChange, reset] = useForm({
+    description: ''
+  });
+
+  console.log(description);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    if (description.trim().length <= 1) {
+      return;
+    }
+
+    const newTodo = {
+      id: new Date().getTime(),
+      desc: description,
+      done: false
+    }
+
+    const action = {
+      type: 'add',
+      payload: newTodo
+    }
+
+    dispatch(action);
+    reset();
+  }
 
   return(
     <div>
@@ -45,14 +72,16 @@ const TodoApp = () => {
           <h4>Add TODO</h4>
           <hr/>
 
-          <form>
+          <form onSubmit={handleSubmit}>
             <input type="text" 
                     name="description"
                     placeholder="Learn..."
                     autoComplete="off"
-                    className="form-control"/>
+                    className="form-control"
+                    value={description}
+                    onChange={handleInputChange} />
 
-            <button className="btn btn-outline-primary btn-block mt-1">Add</button>
+            <button type="submit" className="btn btn-outline-primary btn-block mt-1">Add</button>
           </form>
         </div>
 
