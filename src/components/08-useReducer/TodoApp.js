@@ -61,6 +61,15 @@ const TodoApp = () => {
     dispatch(action);
   }
 
+  const handleToggle = (idTodo) => {
+    const action = {
+      type: 'toggle',
+      payload: idTodo
+    }
+
+    dispatch(action);
+  }
+
   return(
     <div>
       <h1>Todo App ({todos.length})</h1>
@@ -75,7 +84,8 @@ const TodoApp = () => {
               todos.map((todo, index) => (
                 <li key={todo.id}
                     className="list-group-item">
-                  <p className="text-center">{index + 1}. {todo.desc}</p>
+                  <p className={`${todo.done && 'complete'}`}
+                      onClick={() => handleToggle(todo.id)}>{index + 1}. {todo.desc}</p>
                   <button className="btn btn-danger" onClick={() => handleDelete(todo.id)}>Delete</button>
                 </li>
               ))
