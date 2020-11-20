@@ -21,13 +21,15 @@ const AppRouter = () => {
 
         <NavBar />
 
-        <Switch>
-          <Route exact path="/" component={HomeScreen} />
-          <Route exact path="/login" component={LoginScreen} />
-          <Route exact path="/about" component={AboutScreen} />
-          
-          <Redirect to="/" />
-        </Switch>
+        <div className="container">
+          <Switch>
+            <Route exact path="/" component={HomeScreen} />
+            <Route exact path="/login" component={LoginScreen} />
+            <Route exact path="/about" component={AboutScreen} />
+            
+            <Redirect to="/" />
+          </Switch>
+        </div>
       </div>
     </Router>
   );
